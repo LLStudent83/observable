@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import searchSliceReducer from './features/search/searchSlice';
-import { changeSearchEpic, serchSkillsApic } from './epics';
+import { changeSearchEpic, serchSkillsEpic } from './epics';
 
 const epicMiddleware = createEpicMiddleware();
-const rootEpic = combineEpics(changeSearchEpic, serchSkillsApic);
+const rootEpic = combineEpics(changeSearchEpic, serchSkillsEpic);
 
 export const store = configureStore({
   reducer: {

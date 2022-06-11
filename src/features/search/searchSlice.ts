@@ -23,38 +23,37 @@ export const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    progressRequest: (state) => ({
-      ...state, loading: true, error: null,
-    }),
-
-    searchFailure: (state, action: PayloadAction<InitialState>) => {
-      const { message } = action.payload;
-      return { ...state, loading: false, error: message };
+    progressRequest: (state) => {
+      state.loading = true;
+      state.error = null;
     },
 
-    searchSuccess: (state, action:PayloadAction<InitialState>) => {
+    searchFailure: (state, action: PayloadAction<{ message: string }>) => {
+      const { message } = action.payload;
+      state.loading = true;
+      state.error = message;
+    },
+
+    searchSuccess: (state, action: PayloadAction<InitialState>) => {
       const { skills } = action.payload;
-      return {
-        ...state, skills, loading: false, error: null,
-      };
+      state.loading = false;
+      state.error = null;
+      state.skills = skills;
     },
 
     changeSearchField: (state, action: PayloadAction<InitialState>) => {
       const { search } = action.payload;
       if (search !== '') {
-        return { ...state, search };
+        state.search = search;
       }
-      return { ...state, search, skills: [] };
-    },
-
-    default: (state) => {
-      state;
+      state.search = search;
+      state.skills = [];
     },
   },
 });
 
 export const {
-  progressRequest, searchFailure, searchSuccess, changeSearchField, clearField,
+  progressRequest, searchFailure, searchSuccess, changeSearchField,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;
